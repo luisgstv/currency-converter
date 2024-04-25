@@ -1,14 +1,15 @@
 # Currency Converter
 
-This project consists of a currency converter desktop application featuring a user-friendly and intuitive GUI with over 160 currencies, and a graphic displaying the values of that conversion for the last 3 months.
+This project consists of a currency converter desktop application featuring a user-friendly and intuitive GUI with over 160 currencies, and a graph displaying the values of that conversion for the last 3 months.
 
 ## Tools and Modules
 
 - This project uses the **API** from [Currency Beacon](https://currencybeacon.com/) to get the conversions and daily values for that period of time.
 - The **Requests** module is used to retrieve the necessary information from the API.
 - The **CustomTKinter** module is used to create the intuitive GUI.
-- The **Matplotlib** module is used to create the interactive graphic for each currency conversion.
+- The **Matplotlib** module is used to create the interactive graph for each currency conversion.
 - The **Dateutil** and **Datetime** modules are used to accurately calculate the date three months prior to today.
+- The **Threading** module is usde to make the conversions without stopping the application.
 
 ## How it works
 
