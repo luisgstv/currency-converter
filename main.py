@@ -2,6 +2,7 @@ import customtkinter as ctk
 import requests
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.font_manager import FontProperties
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import threading
@@ -27,10 +28,10 @@ class App(ctk.CTk):
 
         # Conversion widgets
         self.currency_selector_frame = ctk.CTkFrame(self, fg_color='transparent')
-        self.from_button = ctk.CTkComboBox(self.currency_selector_frame, values=self.currencies_names, variable=self.from_var)
-        self.to_button = ctk.CTkComboBox(self.currency_selector_frame, values=self.currencies_names, variable=self.to_var)
+        self.from_button = ctk.CTkComboBox(self.currency_selector_frame, values=self.currencies_names, variable=self.from_var, font=('Century Gothic', 14))
+        self.to_button = ctk.CTkComboBox(self.currency_selector_frame, values=self.currencies_names, variable=self.to_var, font=('Century Gothic', 14))
 
-        self.amount_entry = ctk.CTkEntry(self, textvariable=self.amount_var)
+        self.amount_entry = ctk.CTkEntry(self, textvariable=self.amount_var, font=('Century Gothic', 14))
         self.convert_button = ctk.CTkButton(self, text='Convert', command=lambda: threading.Thread(target=self.convert).start(), font=('Century Gothic', 18))
         self.output_value = ctk.CTkLabel(self, textvariable=self.output_var, font=('Century Gothic', 18))
 
@@ -89,11 +90,14 @@ class App(ctk.CTk):
 
     def convert(self):
         # Get the currencies and it's informations, and the value to convert
-        self.from_value = self.currencies[self.from_var.get()]['code']
-        self.to_value = self.currencies[self.to_var.get()]['code']
-        self.symbol = self.currencies[self.to_var.get()]['symbol']
-        self.symbol_first = self.currencies[self.to_var.get()]['symbol_first']
-        self.amount_value = self.amount_var.get()
+        try: 
+            self.from_value = self.currencies[self.from_var.get()]['code']
+            self.to_value = self.currencies[self.to_var.get()]['code']
+            self.symbol = self.currencies[self.to_var.get()]['symbol']
+            self.symbol_first = self.currencies[self.to_var.get()]['symbol_first']
+            self.amount_value = self.amount_var.get()
+        except KeyError:
+            self.output_var.set('ERROR: invalid currency.')
 
         # Try to convert, if there's an incorrect value show an error in the output
         try:
@@ -114,8 +118,8 @@ class App(ctk.CTk):
 
             # Initialize the graphic
             self.plot_graph(self.from_value, self.to_value)
-        except:
-            self.output_var.set('ERROR: invalid currency or number.')
+        except ValueError:
+            self.output_var.set('ERROR: invalid amount.')
 
     def plot_graph(self, from_value, to_value):
         # Getting the period
@@ -138,11 +142,15 @@ class App(ctk.CTk):
         self.ax.clear()
         self.line, = self.ax.plot(date_list, value_list, marker='.', linestyle='-', color='white')
 
+        # Defining the font properties
+        font_props = FontProperties(family='Century Gothic', size=11, style='normal')
+
         # Creating the annotation
         self.annotation = self.ax.annotate(text="", xy=(0,0), xytext=(-80,25),
             textcoords="offset points",
             bbox={'boxstyle': 'round', 'fc': 'gray'},
-            arrowprops={'arrowstyle': '->'}
+            arrowprops={'arrowstyle': '->'},
+            fontproperties=font_props
         )
         self.annotation.set_visible(False)
 
