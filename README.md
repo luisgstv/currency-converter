@@ -8,7 +8,7 @@ This project consists of a currency converter desktop application featuring a us
 - The **Requests** module is used to retrieve the necessary information from the API.
 - The **CustomTKinter** module is used to create the intuitive GUI.
 - The **Matplotlib** module is used to create the interactive graphic for each currency conversion.
-- The **Dateutil** module is used to precisely determine the last 3 months.
+- The **Dateutil** and **Datetime** modules are used to accurately calculate the date three months prior to today.
 
 ## How it works
 
